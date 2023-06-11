@@ -63,7 +63,7 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(height: 8),
                           SizedBox(
                             height: 52,
-                            child: CustomLoginTextField(
+                            child: CustomTextField(
                               inputHintText: "Insira seu nome aqui",
                             ),
                           ),
@@ -78,7 +78,7 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(height: 8),
                           SizedBox(
                             height: 52,
-                            child: CustomLoginTextField(
+                            child: CustomTextField(
                                 inputHintText: "Insira seu e-mail aqui"),
                           ),
                           SizedBox(height: 24),
@@ -92,7 +92,7 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(height: 8),
                           SizedBox(
                             height: 52,
-                            child: CustomLoginTextField(
+                            child: CustomTextField(
                                 inputHintText: "Insira sua senha aqui"),
                           ),
                           SizedBox(height: 32),
@@ -116,6 +116,5 @@ class _RegisterViewState extends State<RegisterView> {
         ),
       ),
     );
-    ;
   }
 }

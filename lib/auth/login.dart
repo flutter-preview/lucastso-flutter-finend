@@ -63,7 +63,7 @@ class _LoginViewState extends State<LoginView> {
                           SizedBox(height: 8),
                           SizedBox(
                             height: 52,
-                            child: CustomLoginTextField(
+                            child: CustomTextField(
                                 inputHintText: "Insira seu e-mail aqui"),
                           ),
                           SizedBox(height: 24),
@@ -77,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
                           SizedBox(height: 8),
                           SizedBox(
                             height: 52,
-                            child: CustomLoginTextField(
+                            child: CustomTextField(
                               inputHintText: "Insira sua senha aqui",
                             ),
                           ),

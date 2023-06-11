@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CustomLoginTextField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String inputHintText;
-  const CustomLoginTextField({super.key, required this.inputHintText});
+  const CustomTextField({super.key, required this.inputHintText});
 
   @override
   Widget build(BuildContext context) {
