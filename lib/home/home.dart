@@ -85,8 +85,8 @@ class _HomeViewState extends State<HomeView> {
                     height: 40,
                   ),
                   Row(
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "Suas receitas +",
                         style: TextStyle(
                           fontSize: 20,
@@ -94,13 +94,21 @@ class _HomeViewState extends State<HomeView> {
                           color: Color(0xFF242424),
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        "Ver todos",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFA8A8A8),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/incomes',
+                          );
+                        },
+                        child: const Text(
+                          "Ver todos",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFA8A8A8),
+                          ),
                         ),
                       ),
                     ],
@@ -109,8 +117,8 @@ class _HomeViewState extends State<HomeView> {
                     height: 40,
                   ),
                   Row(
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "Suas despesas -",
                         style: TextStyle(
                           fontSize: 20,
@@ -118,13 +126,21 @@ class _HomeViewState extends State<HomeView> {
                           color: Color(0xFF242424),
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        "Ver todos",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFA8A8A8),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/expenses',
+                          );
+                        },
+                        child: const Text(
+                          "Ver todos",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFA8A8A8),
+                          ),
                         ),
                       ),
                     ],
@@ -154,7 +170,73 @@ class _HomeViewState extends State<HomeView> {
               side: const BorderSide(width: 0.0, color: Colors.black),
               borderRadius: BorderRadius.circular(100)),
           child: const Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                content: Container(
+                  height: 152,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/newincome',
+                          );
+                        },
+                        child: const Text(
+                          "Nova receita",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF242424),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/newexpense',
+                          );
+                        },
+                        child: const Text(
+                          "Nova despesa",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF242424),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/newcategory',
+                          );
+                        },
+                        child: const Text(
+                          "Nova categoria",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF242424),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

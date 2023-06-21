@@ -2,14 +2,14 @@ import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 
-class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+class NewCategory extends StatefulWidget {
+  const NewCategory({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
+  State<NewCategory> createState() => NewCategoryState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class NewCategoryState extends State<NewCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +40,7 @@ class _ProfileViewState extends State<ProfileView> {
                         width: 8,
                       ),
                       const Text(
-                        "Editar dados do perfil",
+                        "Registrar nova categoria",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -60,58 +60,14 @@ class _ProfileViewState extends State<ProfileView> {
                           color: Color(0xFF242424),
                         ),
                       ),
-                      SizedBox(height: 8),
                       SizedBox(
                         height: 52,
                         child: CustomTextField(
-                          inputHintText: "Insira seu nome aqui",
-                        ),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        "E-mail:",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF242424),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                            inputHintText: "Insira seu e-mail aqui"),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        "Senha:",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF242424),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                            inputHintText: "Insira sua senha aqui"),
-                      ),
-                      SizedBox(height: 24),
-                      Text(
-                        "Foto:",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF242424),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                            inputHintText: "Pesquise no dispositivo"),
+                            inputHintText: "Insira o nome da categoria"),
                       ),
                       SizedBox(height: 32),
                       AuthBlueButton(
-                        buttonLabel: "Editar perfil",
+                        buttonLabel: "Inserir nova categoria",
                         pushToRoute: "/home",
                       ),
                       SizedBox(height: 16),
