@@ -1,4 +1,5 @@
 import 'package:finend/auth/widgets/blue_button.dart';
+import 'package:finend/auth/widgets/grey_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 
@@ -115,6 +116,10 @@ class _ProfileViewState extends State<ProfileView> {
                         pushToRoute: "/home",
                       ),
                       SizedBox(height: 16),
+                      AuthGreyButton(
+                        buttonLabel: 'Log out',
+                        pushToRoute: '/login',
+                      )
                     ],
                   ),
                 ],
