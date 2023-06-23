@@ -13,6 +13,9 @@ class NewIncome extends StatefulWidget {
 
 class _NewIncomeState extends State<NewIncome> {
   String dropdownValue = list.first;
+  TextEditingController inputNameController = TextEditingController();
+  TextEditingController inputDataController = TextEditingController();
+  TextEditingController inputValorController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +68,11 @@ class _NewIncomeState extends State<NewIncome> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(
+                      SizedBox(
                         height: 52,
                         child: CustomTextField(
                           inputHintText: "Insira o nome da receita",
+                          inputController: inputNameController,
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -80,10 +84,12 @@ class _NewIncomeState extends State<NewIncome> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(
+                      SizedBox(
                         height: 52,
                         child: CustomTextField(
-                            inputHintText: "Insira a data da receita"),
+                          inputHintText: "Insira a data da receita",
+                          inputController: inputDataController,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       const Text(
@@ -94,10 +100,12 @@ class _NewIncomeState extends State<NewIncome> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(
+                      SizedBox(
                         height: 52,
                         child: CustomTextField(
-                            inputHintText: "Insira o valor da receita"),
+                          inputHintText: "Insira o valor da receita",
+                          inputController: inputValorController,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       const Text(
@@ -128,9 +136,9 @@ class _NewIncomeState extends State<NewIncome> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      const AuthBlueButton(
+                      AuthBlueButton(
                         buttonLabel: "Inserir nova receita",
-                        pushToRoute: "/home",
+                        onPressed: () {},
                       ),
                       const SizedBox(height: 16),
                     ],

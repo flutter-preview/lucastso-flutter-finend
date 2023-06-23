@@ -11,6 +11,18 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  TextEditingController inputNameController = TextEditingController();
+  TextEditingController inputEmailController = TextEditingController();
+  TextEditingController inputPasswordController = TextEditingController();
+  TextEditingController inputPictureController = TextEditingController();
+
+  void onPressedEditProfile() {
+    Navigator.pushNamed(
+      context,
+      '/home',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,70 +64,77 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      SizedBox(height: 40),
-                      Text(
+                    children: [
+                      const SizedBox(height: 40),
+                      const Text(
                         "Nome:",
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF242424),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
                         child: CustomTextField(
                           inputHintText: "Insira seu nome aqui",
+                          inputController: inputNameController,
                         ),
                       ),
-                      SizedBox(height: 24),
-                      Text(
+                      const SizedBox(height: 24),
+                      const Text(
                         "E-mail:",
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF242424),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
                         child: CustomTextField(
-                            inputHintText: "Insira seu e-mail aqui"),
+                          inputHintText: "Insira seu e-mail aqui",
+                          inputController: inputEmailController,
+                        ),
                       ),
-                      SizedBox(height: 24),
-                      Text(
+                      const SizedBox(height: 24),
+                      const Text(
                         "Senha:",
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF242424),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
                         child: CustomTextField(
-                            inputHintText: "Insira sua senha aqui"),
+                          inputHintText: "Insira sua senha aqui",
+                          inputController: inputPasswordController,
+                        ),
                       ),
-                      SizedBox(height: 24),
-                      Text(
+                      const SizedBox(height: 24),
+                      const Text(
                         "Foto:",
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF242424),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
                         child: CustomTextField(
-                            inputHintText: "Pesquise no dispositivo"),
+                          inputHintText: "Pesquise no dispositivo",
+                          inputController: inputPictureController,
+                        ),
                       ),
-                      SizedBox(height: 32),
+                      const SizedBox(height: 32),
                       AuthBlueButton(
                         buttonLabel: "Editar perfil",
-                        pushToRoute: "/home",
+                        onPressed: onPressedEditProfile,
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       AuthGreyButton(
                         buttonLabel: 'Log out',
                         pushToRoute: '/login',

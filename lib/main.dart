@@ -1,6 +1,7 @@
 import 'package:finend/auth/login.dart';
 import 'package:finend/auth/register.dart';
 import 'package:finend/category/new_category.dart';
+import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/expenses/expenses.dart';
 import 'package:finend/expenses/new_expense.dart';
 import 'package:finend/home/home.dart';
@@ -9,9 +10,15 @@ import 'package:finend/incomes/new_income.dart';
 import 'package:finend/profile/profile.dart';
 import 'package:finend/search/search.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ExpenseIncomeProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

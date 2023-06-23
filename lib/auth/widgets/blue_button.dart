@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class AuthBlueButton extends StatelessWidget {
   final String buttonLabel;
-  final String pushToRoute;
+  final VoidCallback onPressed;
   const AuthBlueButton(
-      {super.key, required this.buttonLabel, required this.pushToRoute});
+      {super.key, required this.buttonLabel, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +27,7 @@ class AuthBlueButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            pushToRoute,
-          );
-        },
+        onPressed: onPressed,
         child: Text(
           buttonLabel,
           style: const TextStyle(

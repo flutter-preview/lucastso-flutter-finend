@@ -1,6 +1,9 @@
 import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
+import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
@@ -13,6 +16,35 @@ class NewExpense extends StatefulWidget {
 
 class _NewExpenseState extends State<NewExpense> {
   String dropdownValue = list.first;
+  TextEditingController inputNameController = TextEditingController();
+  TextEditingController inputDataController = TextEditingController();
+  TextEditingController inputValorController = TextEditingController();
+
+  void addExpense() {
+    final String name = inputNameController.text;
+    final String date = inputDataController.text;
+    final double value = double.parse(inputValorController.text);
+    final String category = dropdownValue;
+
+    final Expense expense = Expense(
+      name: name,
+      value: value,
+      date: date,
+      category: category,
+    );
+
+    Provider.of<ExpenseIncomeProvider>(context, listen: false)
+        .addExpense(expense);
+
+    inputNameController.clear();
+    inputDataController.clear();
+    inputValorController.clear();
+    dropdownValue = list.first;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Despesa adicionada com sucesso')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +97,10 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(
+                      SizedBox(
                         height: 52,
                         child: CustomTextField(
+                          inputController: inputNameController,
                           inputHintText: "Insira o nome da receita",
                         ),
                       ),
@@ -80,9 +113,10 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(
+                      SizedBox(
                         height: 52,
                         child: CustomTextField(
+                            inputController: inputDataController,
                             inputHintText: "Insira a data da receita"),
                       ),
                       const SizedBox(height: 24),
@@ -94,9 +128,10 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(
+                      SizedBox(
                         height: 52,
                         child: CustomTextField(
+                            inputController: inputValorController,
                             inputHintText: "Insira o valor da receita"),
                       ),
                       const SizedBox(height: 24),
@@ -128,9 +163,9 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      const AuthBlueButton(
+                      AuthBlueButton(
                         buttonLabel: "Inserir nova receita",
-                        pushToRoute: "/home",
+                        onPressed: addExpense,
                       ),
                       const SizedBox(height: 16),
                     ],

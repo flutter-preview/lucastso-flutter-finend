@@ -1,4 +1,7 @@
+import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -8,6 +11,18 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  List<Expense> expenses = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadExpenses();
+  }
+
+  void loadExpenses() {
+    expenses = Provider.of<ExpenseIncomeProvider>(context).expenses;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +62,20 @@ class _ExpensesState extends State<Expenses> {
                     ],
                   ),
                   Column(
-                    children: const [
-                      Text("aaa"),
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: expenses.length,
+                        itemBuilder: (context, index) {
+                          final expense = expenses[index];
+                          return ListTile(
+                            title: Text(expense.name),
+                            subtitle: Text(expense.category),
+                            trailing:
+                                Text('\$${expense.value.toStringAsFixed(2)}'),
+                          );
+                        },
+                      ),
                     ],
                   )
                 ],

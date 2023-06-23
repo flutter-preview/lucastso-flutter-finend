@@ -11,6 +11,16 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  TextEditingController inputEmailController = TextEditingController();
+  TextEditingController inputPasswordController = TextEditingController();
+
+  void onPressedLogin() {
+    Navigator.pushNamed(
+      context,
+      '/home',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +53,8 @@ class _LoginViewState extends State<LoginView> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Faça login para acessar\na aplicação",
                             style: TextStyle(
                               fontSize: 20,
@@ -52,42 +62,44 @@ class _LoginViewState extends State<LoginView> {
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 64),
-                          Text(
+                          const SizedBox(height: 64),
+                          const Text(
                             "E-mail:",
                             style: TextStyle(
                               fontSize: 16,
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 52,
                             child: CustomTextField(
+                                inputController: inputEmailController,
                                 inputHintText: "Insira seu e-mail aqui"),
                           ),
-                          SizedBox(height: 24),
-                          Text(
+                          const SizedBox(height: 24),
+                          const Text(
                             "Senha:",
                             style: TextStyle(
                               fontSize: 16,
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 52,
                             child: CustomTextField(
+                              inputController: inputPasswordController,
                               inputHintText: "Insira sua senha aqui",
                             ),
                           ),
-                          SizedBox(height: 32),
+                          const SizedBox(height: 32),
                           AuthBlueButton(
                             buttonLabel: 'Entrar',
-                            pushToRoute: '/home',
+                            onPressed: onPressedLogin,
                           ),
-                          SizedBox(height: 16),
-                          AuthGreyButton(
+                          const SizedBox(height: 16),
+                          const AuthGreyButton(
                             buttonLabel: 'Registrar-se',
                             pushToRoute: '/register',
                           )

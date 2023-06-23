@@ -2,28 +2,31 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String inputHintText;
-  const CustomTextField({super.key, required this.inputHintText});
+  final TextEditingController inputController;
+  const CustomTextField(
+      {super.key, required this.inputHintText, required this.inputController});
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
+    return TextField(
+      controller: inputController,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintText: 'Insira seu e-mail aqui',
-        enabledBorder: OutlineInputBorder(
+        hintText: inputHintText,
+        enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),
           ),
           borderSide: BorderSide(color: Colors.grey, width: 0.0),
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),
           ),
           borderSide: BorderSide(color: Colors.grey, width: 0.0),
         ),
         filled: true,
-        fillColor: Color(0xFFF4F4F4),
+        fillColor: const Color(0xFFF4F4F4),
       ),
     );
   }

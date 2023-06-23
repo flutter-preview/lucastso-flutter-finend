@@ -10,6 +10,15 @@ class NewCategory extends StatefulWidget {
 }
 
 class NewCategoryState extends State<NewCategory> {
+  TextEditingController inputNameController = TextEditingController();
+
+  void onPressedAddNewCategory() {
+    Navigator.pushNamed(
+      context,
+      '/home',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +60,9 @@ class NewCategoryState extends State<NewCategory> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      SizedBox(height: 40),
-                      Text(
+                    children: [
+                      const SizedBox(height: 40),
+                      const Text(
                         "Nome:",
                         style: TextStyle(
                           fontSize: 16,
@@ -63,14 +72,15 @@ class NewCategoryState extends State<NewCategory> {
                       SizedBox(
                         height: 52,
                         child: CustomTextField(
+                            inputController: inputNameController,
                             inputHintText: "Insira o nome da categoria"),
                       ),
-                      SizedBox(height: 32),
+                      const SizedBox(height: 32),
                       AuthBlueButton(
                         buttonLabel: "Inserir nova categoria",
-                        pushToRoute: "/home",
+                        onPressed: onPressedAddNewCategory,
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ],

@@ -11,6 +11,17 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  TextEditingController inputNameController = TextEditingController();
+  TextEditingController inputEmailController = TextEditingController();
+  TextEditingController inputPasswordController = TextEditingController();
+
+  void onPressedRegister() {
+    Navigator.pushNamed(
+      context,
+      '/home',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +54,8 @@ class _RegisterViewState extends State<RegisterView> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Registre-se para ter\nacesso a aplicação",
                             style: TextStyle(
                               fontSize: 20,
@@ -52,56 +63,59 @@ class _RegisterViewState extends State<RegisterView> {
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 64),
-                          Text(
+                          const SizedBox(height: 64),
+                          const Text(
                             "Nome:",
                             style: TextStyle(
                               fontSize: 16,
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 52,
                             child: CustomTextField(
+                              inputController: inputNameController,
                               inputHintText: "Insira seu nome aqui",
                             ),
                           ),
-                          SizedBox(height: 24),
-                          Text(
+                          const SizedBox(height: 24),
+                          const Text(
                             "E-mail:",
                             style: TextStyle(
                               fontSize: 16,
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 52,
                             child: CustomTextField(
+                                inputController: inputEmailController,
                                 inputHintText: "Insira seu e-mail aqui"),
                           ),
-                          SizedBox(height: 24),
-                          Text(
+                          const SizedBox(height: 24),
+                          const Text(
                             "Senha:",
                             style: TextStyle(
                               fontSize: 16,
                               color: Color(0xFF242424),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           SizedBox(
                             height: 52,
                             child: CustomTextField(
+                                inputController: inputPasswordController,
                                 inputHintText: "Insira sua senha aqui"),
                           ),
-                          SizedBox(height: 32),
+                          const SizedBox(height: 32),
                           AuthBlueButton(
                             buttonLabel: "Registrar-se",
-                            pushToRoute: "/home",
+                            onPressed: onPressedRegister,
                           ),
-                          SizedBox(height: 16),
-                          AuthGreyButton(
+                          const SizedBox(height: 16),
+                          const AuthGreyButton(
                             buttonLabel: "Login",
                             pushToRoute: "/login",
                           )
