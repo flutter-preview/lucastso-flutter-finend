@@ -1,3 +1,4 @@
+import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
 
 class Incomes extends StatefulWidget {
@@ -8,6 +9,8 @@ class Incomes extends StatefulWidget {
 }
 
 class _IncomesState extends State<Incomes> {
+  List<Income> incomes = generateMockIncomes();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +50,20 @@ class _IncomesState extends State<Incomes> {
                     ],
                   ),
                   Column(
-                    children: const [
-                      Text("aaa"),
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: incomes.length,
+                        itemBuilder: (context, index) {
+                          final expense = incomes[index];
+                          return ListTile(
+                            title: Text(expense.name),
+                            subtitle: Text(expense.category),
+                            trailing:
+                                Text('\$${expense.value.toStringAsFixed(2)}'),
+                          );
+                        },
+                      ),
                     ],
                   )
                 ],

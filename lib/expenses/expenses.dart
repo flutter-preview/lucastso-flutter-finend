@@ -11,7 +11,7 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  List<Expense> expenses = [];
+  /*List<Expense> expenses = [];
 
   @override
   void didChangeDependencies() {
@@ -21,10 +21,12 @@ class _ExpensesState extends State<Expenses> {
 
   void loadExpenses() {
     expenses = Provider.of<ExpenseIncomeProvider>(context).expenses;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
+    List<Expense> expenses = generateMockExpenses();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

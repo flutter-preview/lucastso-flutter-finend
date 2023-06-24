@@ -1,3 +1,5 @@
+import 'package:finend/expenses/models/expense.dart';
+import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -8,6 +10,9 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  List<Expense> expenses = generateMockExpenses();
+  List<Income> incomes = generateMockIncomes();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +118,24 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 148,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: incomes.length <= 5 ? incomes.length : 5,
+                      itemBuilder: (context, index) {
+                        final expense = incomes[index];
+                        return Container(
+                          width: 148,
+                          color: const Color(0xFF356DFF),
+                          child: Text(expense.name),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 12);
+                      },
+                    ),
+                  ),
                   const SizedBox(
                     height: 40,
                   ),
@@ -144,6 +167,24 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 148,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: expenses.length <= 5 ? expenses.length : 5,
+                      itemBuilder: (context, index) {
+                        final expense = expenses[index];
+                        return Container(
+                          width: 148,
+                          color: const Color(0xFFFF5858),
+                          child: Text(expense.name),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 12);
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 40,
