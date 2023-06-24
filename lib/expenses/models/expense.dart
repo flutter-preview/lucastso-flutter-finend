@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Expense {
   String name;
   double value;
@@ -25,4 +27,20 @@ class Expense {
       category: values[3],
     );
   }
+}
+
+List<Expense> generateMockExpenses() {
+  List<Expense> expenses = [];
+
+  for (int i = 0; i < 6; i++) {
+    Expense expense = Expense(
+      name: 'Expense ${i + 1}',
+      value: Random().nextDouble() * 1000,
+      date: DateTime.now().subtract(Duration(days: i)).toString(),
+      category: 'Category ${i + 1}',
+    );
+    expenses.add(expense);
+  }
+
+  return expenses;
 }

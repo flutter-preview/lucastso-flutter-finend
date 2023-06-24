@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Income {
   String name;
   double value;
@@ -25,4 +27,20 @@ class Income {
       category: values[3],
     );
   }
+}
+
+List<Income> generateMockIncomes() {
+  List<Income> incomes = [];
+
+  for (int i = 0; i < 6; i++) {
+    Income income = Income(
+      name: 'Income ${i + 1}',
+      value: Random().nextDouble() * 1000,
+      date: DateTime.now().subtract(Duration(days: i)).toString(),
+      category: 'Category ${i + 1}',
+    );
+    incomes.add(income);
+  }
+
+  return incomes;
 }
