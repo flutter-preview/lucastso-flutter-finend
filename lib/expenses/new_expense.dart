@@ -30,6 +30,7 @@ class _NewExpenseState extends State<NewExpense> {
       name: name,
       value: value,
       date: date,
+      type: "Despesa",
       category: category,
     );
 
