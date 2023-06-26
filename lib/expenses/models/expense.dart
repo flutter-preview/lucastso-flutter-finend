@@ -21,15 +21,24 @@ class Expense {
     return '$name,$value,$date,$type,$category';
   }
 
-  static Expense fromString(String expenseString) {
-    final values = expenseString.split(',');
+  static Expense fromJson(Map<String, dynamic> json) {
     return Expense(
-      name: values[0],
-      value: double.parse(values[1]),
-      date: values[2],
-      type: values[3],
-      category: values[4],
+      name: json['name'],
+      value: json['value'].toDouble(),
+      date: json['date'],
+      type: json['type'],
+      category: json['category'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'value': value,
+      'date': date,
+      'type': type,
+      'category': category,
+    };
   }
 }
 

@@ -20,35 +20,9 @@ class _NewExpenseState extends State<NewExpense> {
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
 
-  void addExpense() {
-    final String name = inputNameController.text;
-    final String date = inputDataController.text;
-    final double value = double.parse(inputValorController.text);
-    final String category = dropdownValue;
-
-    final Expense expense = Expense(
-      name: name,
-      value: value,
-      date: date,
-      type: "Despesa",
-      category: category,
-    );
-
-    Provider.of<ExpenseIncomeProvider>(context, listen: false)
-        .addExpense(expense);
-
-    inputNameController.clear();
-    inputDataController.clear();
-    inputValorController.clear();
-    dropdownValue = list.first;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Despesa adicionada com sucesso')),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final expenseManager = Provider.of<ExpenseIncomeManager>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -77,7 +51,7 @@ class _NewExpenseState extends State<NewExpense> {
                         width: 8,
                       ),
                       const Text(
-                        "Registrar nova receita",
+                        "Registrar nova despesa",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -165,8 +139,23 @@ class _NewExpenseState extends State<NewExpense> {
                       ),
                       const SizedBox(height: 32),
                       AuthBlueButton(
-                        buttonLabel: "Inserir nova receita",
-                        onPressed: addExpense,
+                        buttonLabel: "Inserir nova despesa",
+                        onPressed: () {
+                          final String name = inputNameController.text;
+                          final String date = inputDataController.text;
+                          final double value =
+                              double.parse(inputValorController.text);
+                          final String category = dropdownValue;
+
+                          final newExpense = Expense(
+                            name: name,
+                            value: value,
+                            date: date,
+                            type: 'Despesa',
+                            category: category,
+                          );
+                          expenseManager.addExpense(newExpense);
+                        },
                       ),
                       const SizedBox(height: 16),
                     ],

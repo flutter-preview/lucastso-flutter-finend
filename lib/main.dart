@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => ExpenseIncomeProvider(),
+      create: (_) => ExpenseIncomeManager()..getExpensesAndIncomes(),
       child: const MyApp(),
     ),
   );

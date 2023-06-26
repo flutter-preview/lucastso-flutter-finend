@@ -1,5 +1,6 @@
-import 'package:finend/incomes/models/income.dart';
+import 'package:finend/configs/expense_income_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Incomes extends StatefulWidget {
   const Incomes({super.key});
@@ -9,10 +10,11 @@ class Incomes extends StatefulWidget {
 }
 
 class _IncomesState extends State<Incomes> {
-  List<Income> incomes = generateMockIncomes();
-
   @override
   Widget build(BuildContext context) {
+    final incomeManager = Provider.of<ExpenseIncomeManager>(context);
+    final incomes = incomeManager.incomes;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -55,7 +57,7 @@ class _IncomesState extends State<Incomes> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: incomes.length,
                     itemBuilder: (context, index) {
-                      final expense = incomes[index];
+                      final income = incomes[index];
                       return GestureDetector(
                         onTap: () {
                           showDialog(
@@ -73,7 +75,7 @@ class _IncomesState extends State<Incomes> {
                                     Row(
                                       children: [
                                         Text(
-                                          expense.name,
+                                          income.name,
                                           style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w600,
@@ -92,7 +94,7 @@ class _IncomesState extends State<Incomes> {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      expense.date,
+                                      income.date,
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -100,7 +102,7 @@ class _IncomesState extends State<Incomes> {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      "r\$${expense.value}",
+                                      "r\$${income.value}",
                                       style: const TextStyle(
                                         fontSize: 32,
                                         fontWeight: FontWeight.w600,
@@ -109,9 +111,14 @@ class _IncomesState extends State<Incomes> {
                                     const SizedBox(height: 16),
                                     Row(
                                       children: [
-                                        const Icon(
-                                          Icons.delete_outline,
-                                          color: Colors.red,
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            incomeManager.removeIncome(income);
+                                          },
                                         ),
                                         const Spacer(),
                                         SizedBox(
@@ -174,7 +181,7 @@ class _IncomesState extends State<Incomes> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  expense.name,
+                                  income.name,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
@@ -183,7 +190,7 @@ class _IncomesState extends State<Incomes> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  expense.date,
+                                  income.date,
                                   style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
@@ -203,7 +210,7 @@ class _IncomesState extends State<Incomes> {
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
-                                          expense.category,
+                                          income.category,
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
@@ -215,7 +222,7 @@ class _IncomesState extends State<Incomes> {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      "r\$${expense.value}",
+                                      "r\$${income.value}",
                                       style: const TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.w600,

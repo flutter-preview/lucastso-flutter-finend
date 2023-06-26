@@ -1,6 +1,9 @@
 import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
+import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
@@ -19,6 +22,9 @@ class _NewIncomeState extends State<NewIncome> {
 
   @override
   Widget build(BuildContext context) {
+    final incomeManager = Provider.of<ExpenseIncomeManager>(context);
+    final incomes = incomeManager.incomes;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -138,7 +144,22 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 32),
                       AuthBlueButton(
                         buttonLabel: "Inserir nova receita",
-                        onPressed: () {},
+                        onPressed: () {
+                          final String name = inputNameController.text;
+                          final String date = inputDataController.text;
+                          final double value =
+                              double.parse(inputValorController.text);
+                          final String category = dropdownValue;
+
+                          final newIncome = Income(
+                            name: name,
+                            value: value,
+                            date: date,
+                            type: 'Receita',
+                            category: category,
+                          );
+                          incomeManager.addIncome(newIncome);
+                        },
                       ),
                       const SizedBox(height: 16),
                     ],

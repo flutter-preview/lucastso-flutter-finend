@@ -11,21 +11,10 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  /*List<Expense> expenses = [];
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    loadExpenses();
-  }
-
-  void loadExpenses() {
-    expenses = Provider.of<ExpenseIncomeProvider>(context).expenses;
-  }*/
-
   @override
   Widget build(BuildContext context) {
-    List<Expense> expenses = generateMockExpenses();
+    final expenseManager = Provider.of<ExpenseIncomeManager>(context);
+    final expenses = expenseManager.expenses;
 
     return Scaffold(
       body: SafeArea(
@@ -123,9 +112,15 @@ class _ExpensesState extends State<Expenses> {
                                     const SizedBox(height: 16),
                                     Row(
                                       children: [
-                                        const Icon(
-                                          Icons.delete_outline,
-                                          color: Colors.red,
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            expenseManager
+                                                .removeExpense(expense);
+                                          },
                                         ),
                                         const Spacer(),
                                         SizedBox(
