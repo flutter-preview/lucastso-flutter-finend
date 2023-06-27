@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "618357826834",
+    "project_id": "finend-afd20",
+    "storage_bucket": "finend-afd20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618357826834:android:2a1424c83c1a9056407fcb",
+        "android_client_info": {
+          "package_name": "com.example.finend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618357826834-nvv0gcpn7l03s0tquul2u24e10moev4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQKGx4Sviap2VUc3hUKn7exUq4yCmAF1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618357826834-nvv0gcpn7l03s0tquul2u24e10moev4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

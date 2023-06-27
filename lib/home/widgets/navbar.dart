@@ -1,14 +1,28 @@
+import 'package:finend/auth/auth_service.dart';
 import 'package:finend/configs/expense_income_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NavBar extends StatelessWidget {
+class NavBar extends StatefulWidget {
   const NavBar({super.key});
+
+  @override
+  State<NavBar> createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> {
+  void signOut() {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    authService.signOut();
+    Navigator.pushNamed(
+      context,
+      '/login',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final manager = Provider.of<ExpenseIncomeManager>(context);
-
     String userName = "";
 
     return Row(
@@ -58,18 +72,33 @@ class NavBar extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        IconButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              '/search',
-            );
-          },
-          icon: const Icon(
-            Icons.search,
-            color: Color(0xFF242424),
-            size: 24,
-          ),
+        Row(
+          children: [
+            IconButton(
+              onPressed: signOut,
+              icon: const Icon(
+                Icons.logout,
+                color: Color(0xFF242424),
+                size: 24,
+              ),
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/search',
+                );
+              },
+              icon: const Icon(
+                Icons.search,
+                color: Color(0xFF242424),
+                size: 24,
+              ),
+            ),
+          ],
         )
       ],
     );

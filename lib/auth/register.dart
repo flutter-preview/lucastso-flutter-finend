@@ -1,7 +1,9 @@
+import 'package:finend/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/grey_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
+import 'package:provider/provider.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -15,11 +17,19 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController inputEmailController = TextEditingController();
   TextEditingController inputPasswordController = TextEditingController();
 
-  void onPressedRegister() {
-    Navigator.pushNamed(
-      context,
-      '/home',
-    );
+  void onPressedRegister() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    try {
+      await authService.signUpWithEmailAndPassword(
+          inputEmailController.text, inputPasswordController.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erro"),
+        ),
+      );
+    }
   }
 
   @override
