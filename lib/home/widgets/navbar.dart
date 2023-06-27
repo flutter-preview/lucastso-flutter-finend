@@ -1,10 +1,16 @@
+import 'package:finend/configs/expense_income_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final manager = Provider.of<ExpenseIncomeManager>(context);
+
+    String userName = "";
+
     return Row(
       children: [
         InkWell(
@@ -16,7 +22,7 @@ class NavBar extends StatelessWidget {
           },
           child: Row(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 56,
                 height: 56,
                 child: ClipRRect(
@@ -28,14 +34,14 @@ class NavBar extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 width: 16,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    "Lucas",
+                    userName,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

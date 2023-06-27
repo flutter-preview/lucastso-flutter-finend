@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/grey_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -16,11 +19,24 @@ class _ProfileViewState extends State<ProfileView> {
   TextEditingController inputPasswordController = TextEditingController();
   TextEditingController inputPictureController = TextEditingController();
 
+  Future<void> saveUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = {
+      'name': inputNameController.text,
+      'email': inputEmailController.text,
+      'password': inputPasswordController.text,
+      'imageUrl': inputPictureController.text,
+    };
+    await prefs.setString('userData', json.encode(userData));
+  }
+
   void onPressedEditProfile() {
-    Navigator.pushNamed(
-      context,
-      '/home',
-    );
+    saveUserData().then((_) {
+      Navigator.pushNamed(
+        context,
+        '/home',
+      );
+    });
   }
 
   @override
@@ -135,7 +151,7 @@ class _ProfileViewState extends State<ProfileView> {
                         onPressed: onPressedEditProfile,
                       ),
                       const SizedBox(height: 16),
-                      AuthGreyButton(
+                      const AuthGreyButton(
                         buttonLabel: 'Log out',
                         pushToRoute: '/login',
                       )

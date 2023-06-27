@@ -21,6 +21,7 @@ class _NewIncomeState extends State<NewIncome> {
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
+  TextEditingController inputCategoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +138,29 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Insira o valor da receita",
-                          inputController: inputValorController,
+                        child: TextField(
+                          controller: inputValorController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: "Insira o valor da receita",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -153,21 +174,9 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: DropdownButton(
-                          isExpanded: true,
-                          value: dropdownValue,
-                          onChanged: (String? value) {
-                            setState(() {
-                              dropdownValue = value!;
-                            });
-                          },
-                          items: list
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                        child: CustomTextField(
+                          inputController: inputCategoryController,
+                          inputHintText: "Insira a categoria da receita",
                         ),
                       ),
                       const SizedBox(height: 32),

@@ -1,5 +1,4 @@
 import 'package:finend/configs/expense_income_provider.dart';
-import 'package:finend/expenses/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,7 +66,7 @@ class _ExpensesState extends State<Expenses> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
-                              content: Container(
+                              content: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
                                 child: Column(
@@ -122,43 +121,6 @@ class _ExpensesState extends State<Expenses> {
                                                 .removeExpense(expense);
                                           },
                                         ),
-                                        const Spacer(),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.5,
-                                          height: 40,
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                const Color(0xFF0047FF),
-                                              ),
-                                              shape:
-                                                  const MaterialStatePropertyAll(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(8),
-                                                  ),
-                                                  side: BorderSide(
-                                                    color: Color(0xFF002993),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {},
-                                            child: const Text(
-                                              "Editar",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        )
                                       ],
                                     ),
                                   ],

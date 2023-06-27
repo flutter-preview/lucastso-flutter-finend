@@ -66,7 +66,7 @@ class _IncomesState extends State<Incomes> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
-                              content: Container(
+                              content: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
                                 child: Column(
@@ -120,43 +120,6 @@ class _IncomesState extends State<Incomes> {
                                             incomeManager.removeIncome(income);
                                           },
                                         ),
-                                        const Spacer(),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.5,
-                                          height: 40,
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                const Color(0xFF0047FF),
-                                              ),
-                                              shape:
-                                                  const MaterialStatePropertyAll(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(8),
-                                                  ),
-                                                  side: BorderSide(
-                                                    color: Color(0xFF002993),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () {},
-                                            child: const Text(
-                                              "Editar",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        )
                                       ],
                                     ),
                                   ],
@@ -170,7 +133,8 @@ class _IncomesState extends State<Incomes> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: const Color(0xFF356DFF),
-                              border: Border.all(color: Color(0xFF002993)),
+                              border:
+                                  Border.all(color: const Color(0xFF002993)),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(8),
                               ),

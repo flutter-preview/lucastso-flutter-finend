@@ -1,6 +1,5 @@
 import 'package:finend/auth/login.dart';
 import 'package:finend/auth/register.dart';
-import 'package:finend/category/new_category.dart';
 import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/expenses/expenses.dart';
 import 'package:finend/expenses/new_expense.dart';
@@ -45,7 +44,6 @@ class MyApp extends StatelessWidget {
         '/newincome': (context) => const NewIncome(),
         '/expenses': (context) => const Expenses(),
         '/newexpense': (context) => const NewExpense(),
-        '/newcategory': (context) => const NewCategory(),
       },
     );
   }

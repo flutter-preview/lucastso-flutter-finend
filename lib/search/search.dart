@@ -1,9 +1,5 @@
-import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:finend/configs/expense_income_provider.dart';
-import 'package:finend/expenses/models/expense.dart';
-import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import 'package:provider/provider.dart';
 
@@ -115,7 +111,7 @@ class _SearchViewState extends State<SearchView> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4.0),
                               ),
-                              content: Container(
+                              content: SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
                                 child: Column(

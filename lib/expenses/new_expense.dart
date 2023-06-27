@@ -21,6 +21,7 @@ class _NewExpenseState extends State<NewExpense> {
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
+  TextEditingController inputCategoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class _NewExpenseState extends State<NewExpense> {
                         height: 52,
                         child: CustomTextField(
                           inputController: inputNameController,
-                          inputHintText: "Insira o nome da receita",
+                          inputHintText: "Insira o nome da despesa",
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -135,9 +136,30 @@ class _NewExpenseState extends State<NewExpense> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: CustomTextField(
-                            inputController: inputValorController,
-                            inputHintText: "Insira o valor da receita"),
+                        child: TextField(
+                          controller: inputValorController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: "Insira o valor da despesa",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 24),
                       const Text(
@@ -147,26 +169,14 @@ class _NewExpenseState extends State<NewExpense> {
                           color: Color(0xFF242424),
                         ),
                       ),
-                      const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: DropdownButton(
-                          isExpanded: true,
-                          value: dropdownValue,
-                          onChanged: (String? value) {
-                            setState(() {
-                              dropdownValue = value!;
-                            });
-                          },
-                          items: list
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                        child: CustomTextField(
+                          inputController: inputCategoryController,
+                          inputHintText: "Insira a categoria da despesa",
                         ),
                       ),
+                      const SizedBox(height: 8),
                       const SizedBox(height: 32),
                       AuthBlueButton(
                         buttonLabel: "Inserir nova despesa",
@@ -179,12 +189,18 @@ class _NewExpenseState extends State<NewExpense> {
 
                           final newExpense = Expense(
                             name: name,
-                            value: value,
+                            value: -value,
                             date: date,
                             type: 'Despesa',
                             category: category,
                           );
                           expenseManager.addExpense(newExpense);
+
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
                         },
                       ),
                       const SizedBox(height: 16),

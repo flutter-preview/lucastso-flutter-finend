@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ExpenseIncomeManager extends ChangeNotifier {
   static const String _keyExpenses = 'expenses';
   static const String _keyIncomes = 'incomes';
+  static const String _keyUser = 'user';
 
   SharedPreferences? _prefs;
   List<Expense> _expenses = [];
@@ -15,9 +16,7 @@ class ExpenseIncomeManager extends ChangeNotifier {
   List<Income> get incomes => _incomes;
 
   Future<void> _initPrefs() async {
-    if (_prefs == null) {
-      _prefs = await SharedPreferences.getInstance();
-    }
+    _prefs ??= await SharedPreferences.getInstance();
   }
 
   Future<void> getExpenses() async {
@@ -101,15 +100,6 @@ class ExpenseIncomeManager extends ChangeNotifier {
     await getIncomes();
   }
 
-  List<dynamic> getAllTransactions() {
-    List<dynamic> allTransactions = [];
-    allTransactions.addAll(_expenses);
-    allTransactions.addAll(_incomes);
-    allTransactions.shuffle();
-
-    return allTransactions;
-  }
-
   List<dynamic> filterTransactions(String searchQuery) {
     List<Expense> expenses = _expenses;
     List<Income> incomes = _incomes;
@@ -117,6 +107,7 @@ class ExpenseIncomeManager extends ChangeNotifier {
 
     allTransactions.addAll(expenses);
     allTransactions.addAll(incomes);
+    allTransactions.shuffle();
 
     if (searchQuery.isNotEmpty) {
       searchQuery = searchQuery.toLowerCase();

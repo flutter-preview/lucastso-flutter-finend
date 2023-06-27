@@ -1,7 +1,11 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/models/expense.dart';
 import 'package:finend/home/widgets/navbar.dart';
+import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -16,6 +20,49 @@ class _HomeViewState extends State<HomeView> {
     final manager = Provider.of<ExpenseIncomeManager>(context);
     final expenses = manager.expenses;
     final incomes = manager.incomes;
+    List<dynamic> transactions = manager.filterTransactions("");
+
+    List<Color> getBarColors(double value) {
+      if (value < 0) {
+        return [Colors.red];
+      } else {
+        return [Colors.blue];
+      }
+    }
+
+    Map<String, double> getMonthlyData(List<dynamic> transactions) {
+      Map<String, double> monthlyData = {};
+
+      for (var transaction in transactions) {
+        String? transactionDate;
+        double? amount;
+
+        if (transaction is Expense) {
+          transactionDate = transaction.date;
+          amount = transaction.value;
+        } else if (transaction is Income) {
+          transactionDate = transaction.date;
+          amount = -transaction.value;
+        } else {
+          continue;
+        }
+
+        if (transactionDate != null && amount != null) {
+          DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(transactionDate);
+          String month = DateFormat('MM').format(parsedDate);
+
+          if (monthlyData.containsKey(month)) {
+            monthlyData[month] = (monthlyData[month] ?? 0) + amount;
+          } else {
+            monthlyData[month] = amount;
+          }
+        }
+      }
+
+      return monthlyData;
+    }
+
+    Map<String, double> monthlyData = getMonthlyData(transactions);
 
     return Scaffold(
       body: SafeArea(
@@ -78,7 +125,7 @@ class _HomeViewState extends State<HomeView> {
                                         borderRadius:
                                             BorderRadius.circular(4.0),
                                       ),
-                                      content: Container(
+                                      content: SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.3,
@@ -137,46 +184,6 @@ class _HomeViewState extends State<HomeView> {
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.5,
-                                                  height: 40,
-                                                  child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                        const Color(0xFF0047FF),
-                                                      ),
-                                                      shape:
-                                                          const MaterialStatePropertyAll(
-                                                        RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(8),
-                                                          ),
-                                                          side: BorderSide(
-                                                            color: Color(
-                                                                0xFF002993),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {},
-                                                    child: const Text(
-                                                      "Editar",
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
                                               ],
                                             ),
                                           ],
@@ -189,8 +196,8 @@ class _HomeViewState extends State<HomeView> {
                                   width: 148,
                                   decoration: BoxDecoration(
                                     color: const Color(0xFF356DFF),
-                                    border:
-                                        Border.all(color: Color(0xFF002993)),
+                                    border: Border.all(
+                                        color: const Color(0xFF002993)),
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(8),
                                     ),
@@ -297,7 +304,7 @@ class _HomeViewState extends State<HomeView> {
                                         borderRadius:
                                             BorderRadius.circular(4.0),
                                       ),
-                                      content: Container(
+                                      content: SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.3,
@@ -353,53 +360,13 @@ class _HomeViewState extends State<HomeView> {
                                                   onPressed: () {
                                                     manager
                                                         .removeExpense(expense);
-                                                    SnackBar(
+                                                    const SnackBar(
                                                       content: Text(
                                                           "Despesa removida com sucesso"),
                                                     );
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.5,
-                                                  height: 40,
-                                                  child: ElevatedButton(
-                                                    style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                        const Color(0xFF0047FF),
-                                                      ),
-                                                      shape:
-                                                          const MaterialStatePropertyAll(
-                                                        RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(8),
-                                                          ),
-                                                          side: BorderSide(
-                                                            color: Color(
-                                                                0xFF002993),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {},
-                                                    child: const Text(
-                                                      "Editar",
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
                                               ],
                                             ),
                                           ],
@@ -480,6 +447,72 @@ class _HomeViewState extends State<HomeView> {
                       color: Color(0xFF242424),
                     ),
                   ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 500,
+                    child: BarChart(
+                      BarChartData(
+                        alignment: BarChartAlignment.spaceAround,
+                        barTouchData: BarTouchData(enabled: false),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          bottomTitles: SideTitles(
+                            showTitles: true,
+                            margin: 16,
+                            getTitles: (double value) {
+                              switch (value.toInt()) {
+                                case 1:
+                                  return 'Jan';
+                                case 2:
+                                  return 'Fev';
+                                case 3:
+                                  return 'Mar';
+                                case 4:
+                                  return 'Abr';
+                                case 5:
+                                  return 'Mai';
+                                case 6:
+                                  return 'Jun';
+                                case 7:
+                                  return 'Jul';
+                                case 8:
+                                  return 'Ago';
+                                case 9:
+                                  return 'Set';
+                                case 10:
+                                  return 'Out';
+                                case 11:
+                                  return 'Nov';
+                                case 12:
+                                  return 'Dez';
+                                default:
+                                  return '';
+                              }
+                            },
+                          ),
+                          leftTitles: SideTitles(showTitles: false),
+                        ),
+                        borderData: FlBorderData(show: false),
+                        barGroups: monthlyData.entries.map((entry) {
+                          final double expenseValue = entry.value ?? 0.0;
+                          final double incomeValue = entry.value ?? 0.0;
+                          return BarChartGroupData(
+                            x: int.parse(entry.key),
+                            barRods: [
+                              BarChartRodData(
+                                y: expenseValue,
+                                colors: getBarColors(expenseValue),
+                              ),
+                              BarChartRodData(
+                                y: incomeValue,
+                                colors: getBarColors(incomeValue),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -501,7 +534,7 @@ class _HomeViewState extends State<HomeView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-                content: Container(
+                content: SizedBox(
                   height: 152,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -532,22 +565,6 @@ class _HomeViewState extends State<HomeView> {
                         },
                         child: const Text(
                           "Nova despesa",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF242424),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/newcategory',
-                          );
-                        },
-                        child: const Text(
-                          "Nova categoria",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
