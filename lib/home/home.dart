@@ -1,4 +1,5 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/home/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,68 +26,7 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/profile',
-                          );
-                        },
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(999),
-                                ),
-                                child: Image(
-                                  image: AssetImage('assets/images/person.png'),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  "Lucas",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF242424),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.person_outline,
-                                  color: Color(0xFF242424),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/search',
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                          color: Color(0xFF242424),
-                          size: 24,
-                        ),
-                      )
-                    ],
-                  ),
+                  const NavBar(),
                   const SizedBox(
                     height: 40,
                   ),
@@ -128,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
                             scrollDirection: Axis.horizontal,
                             itemCount: incomes.length <= 5 ? incomes.length : 5,
                             itemBuilder: (context, index) {
-                              final expense = incomes[index];
+                              final income = incomes[index];
                               return GestureDetector(
                                 onTap: () {
                                   showDialog(
@@ -149,7 +89,7 @@ class _HomeViewState extends State<HomeView> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  expense.name,
+                                                  income.name,
                                                   style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w600,
@@ -169,7 +109,7 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              expense.date,
+                                              income.date,
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
@@ -177,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              "r\$${expense.value}",
+                                              "r\$${income.value}",
                                               style: const TextStyle(
                                                 fontSize: 32,
                                                 fontWeight: FontWeight.w600,
@@ -186,9 +126,16 @@ class _HomeViewState extends State<HomeView> {
                                             const SizedBox(height: 16),
                                             Row(
                                               children: [
-                                                const Icon(
-                                                  Icons.delete_outline,
-                                                  color: Colors.red,
+                                                IconButton(
+                                                  icon: const Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.red,
+                                                  ),
+                                                  onPressed: () {
+                                                    manager
+                                                        .removeIncome(income);
+                                                    Navigator.of(context).pop();
+                                                  },
                                                 ),
                                                 const Spacer(),
                                                 SizedBox(
@@ -255,7 +202,7 @@ class _HomeViewState extends State<HomeView> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        expense.name,
+                                        income.name,
                                         style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
@@ -266,7 +213,7 @@ class _HomeViewState extends State<HomeView> {
                                         height: 4,
                                       ),
                                       Text(
-                                        expense.date,
+                                        income.date,
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
@@ -275,7 +222,7 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "r\$${expense.value}",
+                                        "r\$${income.value}",
                                         style: const TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.w600,
@@ -398,9 +345,20 @@ class _HomeViewState extends State<HomeView> {
                                             const SizedBox(height: 16),
                                             Row(
                                               children: [
-                                                const Icon(
-                                                  Icons.delete_outline,
-                                                  color: Colors.red,
+                                                IconButton(
+                                                  icon: const Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.red,
+                                                  ),
+                                                  onPressed: () {
+                                                    manager
+                                                        .removeExpense(expense);
+                                                    SnackBar(
+                                                      content: Text(
+                                                          "Despesa removida com sucesso"),
+                                                    );
+                                                    Navigator.of(context).pop();
+                                                  },
                                                 ),
                                                 const Spacer(),
                                                 SizedBox(

@@ -1,7 +1,11 @@
+import 'package:finend/auth/widgets/text_fields.dart';
+import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/expenses/models/expense.dart';
 import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+
+import 'package:provider/provider.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -11,16 +15,34 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  List<Expense> expenses = generateMockExpenses();
-  List<Income> incomes = generateMockIncomes();
+  TextEditingController inputSearchController = TextEditingController();
+  List<dynamic> filteredTransactions = [];
 
-  List<dynamic> combinedList = [];
+  @override
+  void initState() {
+    super.initState();
+    filterTransactions();
+    inputSearchController.addListener(filterTransactions);
+  }
+
+  @override
+  void dispose() {
+    inputSearchController.removeListener(filterTransactions);
+    inputSearchController.dispose();
+    super.dispose();
+  }
+
+  void filterTransactions() {
+    final manager = Provider.of<ExpenseIncomeManager>(context, listen: false);
+    final searchQuery = inputSearchController.text;
+    setState(() {
+      filteredTransactions = manager.filterTransactions(searchQuery);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    combinedList.addAll(expenses);
-    combinedList.addAll(incomes);
-    combinedList.shuffle(Random());
+    final manager = Provider.of<ExpenseIncomeManager>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -48,15 +70,43 @@ class _SearchViewState extends State<SearchView> {
                       const SizedBox(
                         width: 8,
                       ),
+                      Expanded(
+                        child: TextField(
+                          controller: inputSearchController,
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: const InputDecoration(
+                            hintText: "Pesquisar",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
+                        ),
+                      ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   const SizedBox(height: 8),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: combinedList.length,
+                    itemCount: filteredTransactions.length,
                     itemBuilder: (context, index) {
-                      final item = combinedList[index];
+                      final item = filteredTransactions[index];
                       return GestureDetector(
                         onTap: () {
                           showDialog(

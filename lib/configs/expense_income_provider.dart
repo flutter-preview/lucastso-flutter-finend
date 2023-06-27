@@ -101,6 +101,34 @@ class ExpenseIncomeManager extends ChangeNotifier {
     await getIncomes();
   }
 
+  List<dynamic> getAllTransactions() {
+    List<dynamic> allTransactions = [];
+    allTransactions.addAll(_expenses);
+    allTransactions.addAll(_incomes);
+    allTransactions.shuffle();
+
+    return allTransactions;
+  }
+
+  List<dynamic> filterTransactions(String searchQuery) {
+    List<Expense> expenses = _expenses;
+    List<Income> incomes = _incomes;
+    List<dynamic> allTransactions = [];
+
+    allTransactions.addAll(expenses);
+    allTransactions.addAll(incomes);
+
+    if (searchQuery.isNotEmpty) {
+      searchQuery = searchQuery.toLowerCase();
+      allTransactions = allTransactions.where((transaction) {
+        String transactionName = transaction.name.toLowerCase();
+        return transactionName.contains(searchQuery);
+      }).toList();
+    }
+
+    return allTransactions;
+  }
+
   /*Future<void> updateExpense(Expense oldExpense, Expense newExpense) async {
     await _initPrefs();
 

@@ -4,6 +4,8 @@ import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/expenses/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:date_format/date_format.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
@@ -88,11 +90,39 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                            inputController: inputDataController,
-                            inputHintText: "Insira a data da receita"),
+                      InkWell(
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            onConfirm: (date) {
+                              setState(() {
+                                inputDataController.text =
+                                    formatDate(date, [dd, '/', mm, '/', yyyy]);
+                              });
+                            },
+                            currentTime: DateTime.now(),
+                            locale: LocaleType.pt,
+                          );
+                        },
+                        child: Container(
+                          height: 52,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.calendar_today),
+                              const SizedBox(width: 8),
+                              Text(
+                                inputDataController.text,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 24),
                       const Text(

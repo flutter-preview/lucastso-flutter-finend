@@ -3,6 +3,8 @@ import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:date_format/date_format.dart';
 import 'package:provider/provider.dart';
 
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
@@ -90,11 +92,38 @@ class _NewIncomeState extends State<NewIncome> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Insira a data da receita",
-                          inputController: inputDataController,
+                      InkWell(
+                        onTap: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            onConfirm: (date) {
+                              setState(() {
+                                inputDataController.text =
+                                    formatDate(date, [dd, '/', mm, '/', yyyy]);
+                              });
+                            },
+                            currentTime: DateTime.now(),
+                            locale: LocaleType.pt,
+                          );
+                        },
+                        child: Container(
+                          height: 52,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.calendar_today),
+                              const SizedBox(width: 8),
+                              Text(
+                                inputDataController.text,
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
