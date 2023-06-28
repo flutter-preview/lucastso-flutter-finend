@@ -1,4 +1,5 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -120,6 +121,50 @@ class _IncomesState extends State<Incomes> {
                                             incomeManager.removeIncome(income);
                                           },
                                         ),
+                                        const Spacer(),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                          height: 40,
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                const Color(0xFF0047FF),
+                                              ),
+                                              shape:
+                                                  const MaterialStatePropertyAll(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(8),
+                                                  ),
+                                                  side: BorderSide(
+                                                    color: Color(0xFF002993),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Income incomeToEdit = income;
+                                              Navigator.pushNamed(
+                                                context,
+                                                '/edit_income',
+                                                arguments: incomeToEdit,
+                                              );
+                                            },
+                                            child: const Text(
+                                              "Editar",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ],

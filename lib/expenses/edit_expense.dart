@@ -1,25 +1,36 @@
 import 'package:finend/auth/widgets/blue_button.dart';
-import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:finend/configs/expense_income_provider.dart';
-import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
+import 'package:finend/expenses/models/expense.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:date_format/date_format.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-class NewIncome extends StatefulWidget {
-  const NewIncome({super.key});
+class EditExpense extends StatefulWidget {
+  const EditExpense({super.key});
 
   @override
-  State<NewIncome> createState() => _NewIncomeState();
+  State<EditExpense> createState() => _EditExpenseState();
 }
 
-class _NewIncomeState extends State<NewIncome> {
+class _EditExpenseState extends State<EditExpense> {
+  late Expense expense;
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
   TextEditingController inputCategoryController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    expense = ModalRoute.of(context)!.settings.arguments as Expense;
+
+    inputNameController.text = expense.name;
+    inputDataController.text = expense.date;
+    inputValorController.text = expense.value.toString();
+    inputCategoryController.text = expense.category;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +63,7 @@ class _NewIncomeState extends State<NewIncome> {
                         width: 8,
                       ),
                       const Text(
-                        "Registrar nova receita",
+                        "Editar despesa",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -75,9 +86,29 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Insira o nome da receita",
-                          inputController: inputNameController,
+                        child: TextField(
+                          controller: inputValorController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: "Insira o valor da despesa",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -139,7 +170,7 @@ class _NewIncomeState extends State<NewIncome> {
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                            hintText: "Insira o valor da receita",
+                            hintText: "Insira o valor da despesa",
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
@@ -170,14 +201,34 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: CustomTextField(
-                          inputController: inputCategoryController,
-                          inputHintText: "Insira a categoria da receita",
+                        child: TextField(
+                          controller: inputValorController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: "Insira a categoria da despesa",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 32),
                       AuthBlueButton(
-                        buttonLabel: "Inserir nova receita",
+                        buttonLabel: "Editar despesa",
                         onPressed: () {
                           final String id = const Uuid().v4();
                           final String name = inputNameController.text;
@@ -186,15 +237,15 @@ class _NewIncomeState extends State<NewIncome> {
                               double.parse(inputValorController.text);
                           final String category = inputCategoryController.text;
 
-                          final newIncome = Income(
+                          final newExpense = Expense(
                             id: id,
                             name: name,
                             value: value,
                             date: date,
-                            type: 'Receita',
+                            type: 'Despesa',
                             category: category,
                           );
-                          incomeManager.addIncome(newIncome);
+                          incomeManager.editExpense(expense.id, newExpense);
                         },
                       ),
                       const SizedBox(height: 16),

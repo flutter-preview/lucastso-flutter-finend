@@ -120,25 +120,31 @@ class ExpenseIncomeManager extends ChangeNotifier {
     return allTransactions;
   }
 
-  /*Future<void> updateExpense(Expense oldExpense, Expense newExpense) async {
+  Future<void> editExpense(String expenseId, Expense editedExpense) async {
     await _initPrefs();
 
-    final expenses = await getExpenses();
-    final index = expenses.indexOf(oldExpense);
+    final index = _expenses.indexWhere((expense) => expense.id == expenseId);
     if (index != -1) {
-      expenses[index] = newExpense;
-      _prefs!.setString(_keyExpenses, jsonEncode(expenses));
+      _expenses[index] = editedExpense;
+      final expensesJson =
+          jsonEncode(_expenses.map((expense) => expense.toJson()).toList());
+      _prefs!.setString(_keyExpenses, expensesJson);
     }
+
+    notifyListeners();
   }
 
-  Future<void> updateIncome(Income oldIncome, Income newIncome) async {
+  Future<void> editIncome(String incomeId, Income editedIncome) async {
     await _initPrefs();
 
-    final incomes = await getIncomes();
-    final index = incomes.indexOf(oldIncome);
+    final index = _incomes.indexWhere((income) => income.id == incomeId);
     if (index != -1) {
-      incomes[index] = newIncome;
-      _prefs!.setString(_keyIncomes, jsonEncode(incomes));
+      _incomes[index] = editedIncome;
+      final incomesJson =
+          jsonEncode(_incomes.map((income) => income.toJson()).toList());
+      _prefs!.setString(_keyIncomes, incomesJson);
     }
-  }*/
+
+    notifyListeners();
+  }
 }

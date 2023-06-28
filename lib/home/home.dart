@@ -184,6 +184,54 @@ class _HomeViewState extends State<HomeView> {
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
+                                                const Spacer(),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  height: 40,
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                        const Color(0xFF0047FF),
+                                                      ),
+                                                      shape:
+                                                          const MaterialStatePropertyAll(
+                                                        RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(8),
+                                                          ),
+                                                          side: BorderSide(
+                                                            color: Color(
+                                                                0xFF002993),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      Income incomeToEdit =
+                                                          income;
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        '/edit_income',
+                                                        arguments: incomeToEdit,
+                                                      );
+                                                    },
+                                                    child: const Text(
+                                                      "Editar",
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ],
@@ -360,13 +408,58 @@ class _HomeViewState extends State<HomeView> {
                                                   onPressed: () {
                                                     manager
                                                         .removeExpense(expense);
-                                                    const SnackBar(
-                                                      content: Text(
-                                                          "Despesa removida com sucesso"),
-                                                    );
                                                     Navigator.of(context).pop();
                                                   },
                                                 ),
+                                                const Spacer(),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  height: 40,
+                                                  child: ElevatedButton(
+                                                    style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                        const Color(0xFF0047FF),
+                                                      ),
+                                                      shape:
+                                                          const MaterialStatePropertyAll(
+                                                        RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(8),
+                                                          ),
+                                                          side: BorderSide(
+                                                            color: Color(
+                                                                0xFF002993),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      Expense expenseToEdit =
+                                                          expense;
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        '/edit_expense',
+                                                        arguments:
+                                                            expenseToEdit,
+                                                      );
+                                                    },
+                                                    child: const Text(
+                                                      "Editar",
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ],
@@ -447,72 +540,79 @@ class _HomeViewState extends State<HomeView> {
                       color: Color(0xFF242424),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 500,
-                    child: BarChart(
-                      BarChartData(
-                        alignment: BarChartAlignment.spaceAround,
-                        barTouchData: BarTouchData(enabled: false),
-                        titlesData: FlTitlesData(
-                          show: true,
-                          bottomTitles: SideTitles(
-                            showTitles: true,
-                            margin: 16,
-                            getTitles: (double value) {
-                              switch (value.toInt()) {
-                                case 1:
-                                  return 'Jan';
-                                case 2:
-                                  return 'Fev';
-                                case 3:
-                                  return 'Mar';
-                                case 4:
-                                  return 'Abr';
-                                case 5:
-                                  return 'Mai';
-                                case 6:
-                                  return 'Jun';
-                                case 7:
-                                  return 'Jul';
-                                case 8:
-                                  return 'Ago';
-                                case 9:
-                                  return 'Set';
-                                case 10:
-                                  return 'Out';
-                                case 11:
-                                  return 'Nov';
-                                case 12:
-                                  return 'Dez';
-                                default:
-                                  return '';
-                              }
-                            },
+                  transactions.isNotEmpty
+                      ? Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 500,
+                          child: BarChart(
+                            BarChartData(
+                              alignment: BarChartAlignment.spaceAround,
+                              barTouchData: BarTouchData(enabled: false),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                bottomTitles: SideTitles(
+                                  showTitles: true,
+                                  margin: 16,
+                                  getTitles: (double value) {
+                                    switch (value.toInt()) {
+                                      case 1:
+                                        return 'Jan';
+                                      case 2:
+                                        return 'Fev';
+                                      case 3:
+                                        return 'Mar';
+                                      case 4:
+                                        return 'Abr';
+                                      case 5:
+                                        return 'Mai';
+                                      case 6:
+                                        return 'Jun';
+                                      case 7:
+                                        return 'Jul';
+                                      case 8:
+                                        return 'Ago';
+                                      case 9:
+                                        return 'Set';
+                                      case 10:
+                                        return 'Out';
+                                      case 11:
+                                        return 'Nov';
+                                      case 12:
+                                        return 'Dez';
+                                      default:
+                                        return '';
+                                    }
+                                  },
+                                ),
+                                leftTitles: SideTitles(showTitles: false),
+                              ),
+                              borderData: FlBorderData(show: false),
+                              barGroups: monthlyData.entries.map((entry) {
+                                final double expenseValue = entry.value ?? 0.0;
+                                final double incomeValue = entry.value ?? 0.0;
+                                return BarChartGroupData(
+                                  x: int.parse(entry.key),
+                                  barRods: [
+                                    BarChartRodData(
+                                      y: expenseValue,
+                                      colors: getBarColors(expenseValue),
+                                    ),
+                                    BarChartRodData(
+                                      y: incomeValue,
+                                      colors: getBarColors(incomeValue),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
                           ),
-                          leftTitles: SideTitles(showTitles: false),
+                        )
+                      : const Center(
+                          child: Text(
+                            "Sem dados de transações recentes",
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        borderData: FlBorderData(show: false),
-                        barGroups: monthlyData.entries.map((entry) {
-                          final double expenseValue = entry.value ?? 0.0;
-                          final double incomeValue = entry.value ?? 0.0;
-                          return BarChartGroupData(
-                            x: int.parse(entry.key),
-                            barRods: [
-                              BarChartRodData(
-                                y: expenseValue,
-                                colors: getBarColors(expenseValue),
-                              ),
-                              BarChartRodData(
-                                y: incomeValue,
-                                colors: getBarColors(incomeValue),
-                              ),
-                            ],
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),

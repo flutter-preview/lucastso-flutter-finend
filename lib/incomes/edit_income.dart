@@ -1,25 +1,36 @@
 import 'package:finend/auth/widgets/blue_button.dart';
-import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:date_format/date_format.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-class NewIncome extends StatefulWidget {
-  const NewIncome({super.key});
+class EditIncome extends StatefulWidget {
+  const EditIncome({Key? key}) : super(key: key);
 
   @override
-  State<NewIncome> createState() => _NewIncomeState();
+  State<EditIncome> createState() => _EditIncomeState();
 }
 
-class _NewIncomeState extends State<NewIncome> {
+class _EditIncomeState extends State<EditIncome> {
+  late Income income;
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
   TextEditingController inputCategoryController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    income = ModalRoute.of(context)!.settings.arguments as Income;
+
+    inputNameController.text = income.name;
+    inputDataController.text = income.date;
+    inputValorController.text = income.value.toString();
+    inputCategoryController.text = income.category;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +63,7 @@ class _NewIncomeState extends State<NewIncome> {
                         width: 8,
                       ),
                       const Text(
-                        "Registrar nova receita",
+                        "Editar receita",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -75,9 +86,29 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Insira o nome da receita",
-                          inputController: inputNameController,
+                        child: TextField(
+                          controller: inputValorController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: "Insira o valor da receita",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -170,14 +201,34 @@ class _NewIncomeState extends State<NewIncome> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 52,
-                        child: CustomTextField(
-                          inputController: inputCategoryController,
-                          inputHintText: "Insira a categoria da receita",
+                        child: TextField(
+                          controller: inputValorController,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            hintText: "Insira a categoria da receita",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 0.0),
+                            ),
+                            filled: true,
+                            fillColor: Color(0xFFF4F4F4),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 32),
                       AuthBlueButton(
-                        buttonLabel: "Inserir nova receita",
+                        buttonLabel: "Editar receita",
                         onPressed: () {
                           final String id = const Uuid().v4();
                           final String name = inputNameController.text;
@@ -194,7 +245,7 @@ class _NewIncomeState extends State<NewIncome> {
                             type: 'Receita',
                             category: category,
                           );
-                          incomeManager.addIncome(newIncome);
+                          incomeManager.editIncome(income.id, newIncome);
                         },
                       ),
                       const SizedBox(height: 16),

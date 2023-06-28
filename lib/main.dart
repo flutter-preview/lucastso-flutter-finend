@@ -3,10 +3,12 @@ import 'package:finend/auth/auth_service.dart';
 import 'package:finend/auth/login.dart';
 import 'package:finend/auth/register.dart';
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/edit_expense.dart';
 import 'package:finend/expenses/expenses.dart';
 import 'package:finend/expenses/new_expense.dart';
 import 'package:finend/firebase_options.dart';
 import 'package:finend/home/home.dart';
+import 'package:finend/incomes/edit_income.dart';
 import 'package:finend/incomes/incomes.dart';
 import 'package:finend/incomes/new_income.dart';
 import 'package:finend/profile/profile.dart';
@@ -59,6 +61,8 @@ class MyApp extends StatelessWidget {
         '/newincome': (context) => const NewIncome(),
         '/expenses': (context) => const Expenses(),
         '/newexpense': (context) => const NewExpense(),
+        '/edit_income': (context) => const EditIncome(),
+        '/edit_expense': (context) => const EditExpense(),
       },
     );
   }

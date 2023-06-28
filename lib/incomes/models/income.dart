@@ -1,7 +1,5 @@
-import 'dart:math';
-import 'package:intl/intl.dart';
-
 class Income {
+  String id;
   String name;
   double value;
   String date;
@@ -9,6 +7,7 @@ class Income {
   String category;
 
   Income({
+    required this.id,
     required this.name,
     required this.value,
     required this.date,
@@ -18,11 +17,12 @@ class Income {
 
   @override
   String toString() {
-    return '$name,$value,$date,$type,$category';
+    return '$id,$name,$value,$date,$type,$category';
   }
 
   static Income fromJson(Map<String, dynamic> json) {
     return Income(
+      id: json['id'],
       name: json['name'],
       value: json['value'].toDouble(),
       date: json['date'],
@@ -33,6 +33,7 @@ class Income {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'value': value,
       'date': date,
@@ -40,21 +41,4 @@ class Income {
       'category': category,
     };
   }
-}
-
-List<Income> generateMockIncomes() {
-  List<Income> incomes = [];
-
-  for (int i = 0; i < 6; i++) {
-    Income income = Income(
-      name: 'Income ${i + 1}',
-      value: double.parse((Random().nextDouble() * 1000).toStringAsFixed(2)),
-      date: DateFormat('dd/MM/yyyy').format(DateTime.now()).toString(),
-      type: "Receita",
-      category: 'Category ${i + 1}',
-    );
-    incomes.add(income);
-  }
-
-  return incomes;
 }

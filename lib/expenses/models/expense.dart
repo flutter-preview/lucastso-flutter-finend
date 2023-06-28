@@ -1,7 +1,5 @@
-import 'dart:math';
-import 'package:intl/intl.dart';
-
 class Expense {
+  String id;
   String name;
   double value;
   String date;
@@ -9,6 +7,7 @@ class Expense {
   String category;
 
   Expense({
+    required this.id,
     required this.name,
     required this.value,
     required this.date,
@@ -18,11 +17,12 @@ class Expense {
 
   @override
   String toString() {
-    return '$name,$value,$date,$type,$category';
+    return '$id,$name,$value,$date,$type,$category';
   }
 
   static Expense fromJson(Map<String, dynamic> json) {
     return Expense(
+      id: json['id'],
       name: json['name'],
       value: json['value'].toDouble(),
       date: json['date'],
@@ -33,6 +33,7 @@ class Expense {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'value': value,
       'date': date,
@@ -40,21 +41,4 @@ class Expense {
       'category': category,
     };
   }
-}
-
-List<Expense> generateMockExpenses() {
-  List<Expense> expenses = [];
-
-  for (int i = 0; i < 6; i++) {
-    Expense expense = Expense(
-      name: 'Expense ${i + 1}',
-      value: double.parse((Random().nextDouble() * 1000).toStringAsFixed(2)),
-      date: DateFormat('dd/MM/yyyy').format(DateTime.now()).toString(),
-      type: "Despesa",
-      category: 'Category ${i + 1}',
-    );
-    expenses.add(expense);
-  }
-
-  return expenses;
 }

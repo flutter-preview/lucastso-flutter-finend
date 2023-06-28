@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:date_format/date_format.dart';
-
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+import 'package:uuid/uuid.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -17,7 +16,6 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  String dropdownValue = list.first;
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
@@ -181,13 +179,15 @@ class _NewExpenseState extends State<NewExpense> {
                       AuthBlueButton(
                         buttonLabel: "Inserir nova despesa",
                         onPressed: () {
+                          final String id = const Uuid().v4();
                           final String name = inputNameController.text;
                           final String date = inputDataController.text;
                           final double value =
                               double.parse(inputValorController.text);
-                          final String category = dropdownValue;
+                          final String category = inputCategoryController.text;
 
                           final newExpense = Expense(
+                            id: id,
                             name: name,
                             value: -value,
                             date: date,
