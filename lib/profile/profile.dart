@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/grey_button.dart';
 import 'package:finend/auth/widgets/text_fields.dart';
+import 'package:finend/configs/expense_income_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,19 +16,10 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   TextEditingController inputNameController = TextEditingController();
-  TextEditingController inputEmailController = TextEditingController();
-  TextEditingController inputPasswordController = TextEditingController();
-  TextEditingController inputPictureController = TextEditingController();
 
   Future<void> saveUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userData = {
-      'name': inputNameController.text,
-      'email': inputEmailController.text,
-      'password': inputPasswordController.text,
-      'imageUrl': inputPictureController.text,
-    };
-    await prefs.setString('userData', json.encode(userData));
+    ExpenseIncomeManager manager = ExpenseIncomeManager();
+    manager.saveUserName(inputNameController.text);
   }
 
   void onPressedEditProfile() {
@@ -95,54 +87,6 @@ class _ProfileViewState extends State<ProfileView> {
                         child: CustomTextField(
                           inputHintText: "Insira seu nome aqui",
                           inputController: inputNameController,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Text(
-                        "E-mail:",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF242424),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Insira seu e-mail aqui",
-                          inputController: inputEmailController,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Text(
-                        "Senha:",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF242424),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Insira sua senha aqui",
-                          inputController: inputPasswordController,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Text(
-                        "Foto:",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF242424),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        height: 52,
-                        child: CustomTextField(
-                          inputHintText: "Pesquise no dispositivo",
-                          inputController: inputPictureController,
                         ),
                       ),
                       const SizedBox(height: 32),

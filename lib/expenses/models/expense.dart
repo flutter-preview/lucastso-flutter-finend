@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Expense {
   String id;
   String name;

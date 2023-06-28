@@ -186,15 +186,22 @@ class _NewExpenseState extends State<NewExpense> {
                               double.parse(inputValorController.text);
                           final String category = inputCategoryController.text;
 
-                          final newExpense = Expense(
-                            id: id,
-                            name: name,
-                            value: -value,
-                            date: date,
-                            type: 'Despesa',
-                            category: category,
-                          );
-                          expenseManager.addExpense(newExpense);
+                          if (name.isEmpty ||
+                              date.isEmpty ||
+                              inputValorController.text.isEmpty ||
+                              category.isEmpty) {
+                            return;
+                          } else {
+                            final newExpense = Expense(
+                              id: id,
+                              name: name,
+                              value: value,
+                              date: date,
+                              type: 'Despesa',
+                              category: category,
+                            );
+                            expenseManager.addExpense(newExpense);
+                          }
 
                           FocusScopeNode currentFocus = FocusScope.of(context);
 

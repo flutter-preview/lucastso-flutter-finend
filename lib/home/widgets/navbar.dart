@@ -23,7 +23,7 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     final manager = Provider.of<ExpenseIncomeManager>(context);
-    String userName = "";
+    String userName = manager.getUserName();
 
     return Row(
       children: [
@@ -36,7 +36,7 @@ class _NavBarState extends State<NavBar> {
           },
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 56,
                 height: 56,
                 child: ClipRRect(
@@ -48,21 +48,26 @@ class _NavBarState extends State<NavBar> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userName,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF242424),
+                  Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 200,
+                    ),
+                    child: Text(
+                      userName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF242424),
+                      ),
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.person_outline,
                     color: Color(0xFF242424),
                   )

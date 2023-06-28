@@ -1,4 +1,8 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/edit_expense.dart';
+import 'package:finend/expenses/models/expense.dart';
+import 'package:finend/incomes/edit_income.dart';
+import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -34,6 +38,16 @@ class _SearchViewState extends State<SearchView> {
     setState(() {
       filteredTransactions = manager.filterTransactions(searchQuery);
     });
+  }
+
+  void handleItemRemoval(dynamic item) {
+    final manager = Provider.of<ExpenseIncomeManager>(context, listen: false);
+    if (item.type == "Receita") {
+      manager.removeIncome(item);
+    } else {
+      manager.removeExpense(item);
+    }
+    filterTransactions();
   }
 
   @override
@@ -156,9 +170,15 @@ class _SearchViewState extends State<SearchView> {
                                     const SizedBox(height: 16),
                                     Row(
                                       children: [
-                                        const Icon(
-                                          Icons.delete_outline,
-                                          color: Colors.red,
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            handleItemRemoval(item);
+                                            Navigator.of(context).pop();
+                                          },
                                         ),
                                         const Spacer(),
                                         SizedBox(
@@ -186,7 +206,31 @@ class _SearchViewState extends State<SearchView> {
                                                 ),
                                               ),
                                             ),
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              if (item.type == "Receita") {
+                                                Income incomeToEdit = item;
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditIncome(
+                                                            income:
+                                                                incomeToEdit),
+                                                  ),
+                                                );
+                                              } else {
+                                                Expense expenseToEdit = item;
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditExpense(
+                                                            expense:
+                                                                expenseToEdit),
+                                                  ),
+                                                );
+                                              }
+                                            },
                                             child: const Text(
                                               "Editar",
                                               style: TextStyle(

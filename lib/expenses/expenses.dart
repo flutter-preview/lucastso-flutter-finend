@@ -1,4 +1,6 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/edit_expense.dart';
+import 'package:finend/expenses/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -121,6 +123,54 @@ class _ExpensesState extends State<Expenses> {
                                                 .removeExpense(expense);
                                           },
                                         ),
+                                        const Spacer(),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                          height: 40,
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                const Color(0xFF0047FF),
+                                              ),
+                                              shape:
+                                                  const MaterialStatePropertyAll(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(8),
+                                                  ),
+                                                  side: BorderSide(
+                                                    color: Color(0xFF002993),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Expense expenseToEdit = expense;
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditExpense(
+                                                          expense:
+                                                              expenseToEdit),
+                                                ),
+                                              );
+                                            },
+                                            child: const Text(
+                                              "Editar",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ],

@@ -8,14 +8,14 @@ import 'package:date_format/date_format.dart';
 import 'package:uuid/uuid.dart';
 
 class EditIncome extends StatefulWidget {
-  const EditIncome({Key? key}) : super(key: key);
+  final Income income;
+  const EditIncome({Key? key, required this.income}) : super(key: key);
 
   @override
   State<EditIncome> createState() => _EditIncomeState();
 }
 
 class _EditIncomeState extends State<EditIncome> {
-  late Income income;
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
@@ -24,12 +24,11 @@ class _EditIncomeState extends State<EditIncome> {
   @override
   void initState() {
     super.initState();
-    income = ModalRoute.of(context)!.settings.arguments as Income;
 
-    inputNameController.text = income.name;
-    inputDataController.text = income.date;
-    inputValorController.text = income.value.toString();
-    inputCategoryController.text = income.category;
+    inputNameController.text = widget.income.name;
+    inputDataController.text = widget.income.date;
+    inputValorController.text = widget.income.value.toString();
+    inputCategoryController.text = widget.income.category;
   }
 
   @override
@@ -87,11 +86,10 @@ class _EditIncomeState extends State<EditIncome> {
                       SizedBox(
                         height: 52,
                         child: TextField(
-                          controller: inputValorController,
+                          controller: inputNameController,
                           textAlignVertical: TextAlignVertical.center,
-                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                            hintText: "Insira o valor da receita",
+                            hintText: "Insira o nome da receita",
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
@@ -202,9 +200,8 @@ class _EditIncomeState extends State<EditIncome> {
                       SizedBox(
                         height: 52,
                         child: TextField(
-                          controller: inputValorController,
+                          controller: inputCategoryController,
                           textAlignVertical: TextAlignVertical.center,
-                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             hintText: "Insira a categoria da receita",
                             enabledBorder: OutlineInputBorder(
@@ -237,15 +234,25 @@ class _EditIncomeState extends State<EditIncome> {
                               double.parse(inputValorController.text);
                           final String category = inputCategoryController.text;
 
-                          final newIncome = Income(
-                            id: id,
-                            name: name,
-                            value: value,
-                            date: date,
-                            type: 'Receita',
-                            category: category,
-                          );
-                          incomeManager.editIncome(income.id, newIncome);
+                          if (name.isEmpty ||
+                              date.isEmpty ||
+                              inputValorController.text.isEmpty ||
+                              category.isEmpty) {
+                            return;
+                          } else {
+                            final newIncome = Income(
+                              id: id,
+                              name: name,
+                              value: value,
+                              date: date,
+                              type: 'Receita',
+                              category: category,
+                            );
+                            incomeManager.editIncome(
+                                widget.income.id, newIncome);
+                          }
+
+                          Navigator.of(context).pop();
                         },
                       ),
                       const SizedBox(height: 16),

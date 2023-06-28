@@ -22,6 +22,8 @@ class _LoginViewState extends State<LoginView> {
     try {
       await authService.signInWithEmailAndPassword(
           inputEmailController.text, inputPasswordController.text);
+
+      Navigator.pushNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -29,13 +31,6 @@ class _LoginViewState extends State<LoginView> {
         ),
       );
     }
-  }
-
-  void onPressedLogin() {
-    Navigator.pushNamed(
-      context,
-      '/home',
-    );
   }
 
   @override

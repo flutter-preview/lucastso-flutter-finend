@@ -1,4 +1,5 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/incomes/edit_income.dart';
 import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -149,10 +150,13 @@ class _IncomesState extends State<Incomes> {
                                             ),
                                             onPressed: () {
                                               Income incomeToEdit = income;
-                                              Navigator.pushNamed(
+                                              Navigator.push(
                                                 context,
-                                                '/edit_income',
-                                                arguments: incomeToEdit,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditIncome(
+                                                          income: incomeToEdit),
+                                                ),
                                               );
                                             },
                                             child: const Text(

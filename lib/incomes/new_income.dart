@@ -186,15 +186,28 @@ class _NewIncomeState extends State<NewIncome> {
                               double.parse(inputValorController.text);
                           final String category = inputCategoryController.text;
 
-                          final newIncome = Income(
-                            id: id,
-                            name: name,
-                            value: value,
-                            date: date,
-                            type: 'Receita',
-                            category: category,
-                          );
-                          incomeManager.addIncome(newIncome);
+                          if (name.isEmpty ||
+                              date.isEmpty ||
+                              inputValorController.text.isEmpty ||
+                              category.isEmpty) {
+                            return;
+                          } else {
+                            final newIncome = Income(
+                              id: id,
+                              name: name,
+                              value: value,
+                              date: date,
+                              type: 'Receita',
+                              category: category,
+                            );
+                            incomeManager.addIncome(newIncome);
+                          }
+
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
                         },
                       ),
                       const SizedBox(height: 16),

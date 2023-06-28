@@ -8,14 +8,14 @@ import 'package:date_format/date_format.dart';
 import 'package:uuid/uuid.dart';
 
 class EditExpense extends StatefulWidget {
-  const EditExpense({super.key});
+  final Expense expense;
+  const EditExpense({super.key, required this.expense});
 
   @override
   State<EditExpense> createState() => _EditExpenseState();
 }
 
 class _EditExpenseState extends State<EditExpense> {
-  late Expense expense;
   TextEditingController inputNameController = TextEditingController();
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
@@ -24,12 +24,11 @@ class _EditExpenseState extends State<EditExpense> {
   @override
   void initState() {
     super.initState();
-    expense = ModalRoute.of(context)!.settings.arguments as Expense;
 
-    inputNameController.text = expense.name;
-    inputDataController.text = expense.date;
-    inputValorController.text = expense.value.toString();
-    inputCategoryController.text = expense.category;
+    inputNameController.text = widget.expense.name;
+    inputDataController.text = widget.expense.date;
+    inputValorController.text = widget.expense.value.toString();
+    inputCategoryController.text = widget.expense.category;
   }
 
   @override
@@ -87,11 +86,10 @@ class _EditExpenseState extends State<EditExpense> {
                       SizedBox(
                         height: 52,
                         child: TextField(
-                          controller: inputValorController,
+                          controller: inputNameController,
                           textAlignVertical: TextAlignVertical.center,
-                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                            hintText: "Insira o valor da despesa",
+                            hintText: "Insira o nome da despesa",
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
@@ -202,9 +200,8 @@ class _EditExpenseState extends State<EditExpense> {
                       SizedBox(
                         height: 52,
                         child: TextField(
-                          controller: inputValorController,
+                          controller: inputCategoryController,
                           textAlignVertical: TextAlignVertical.center,
-                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             hintText: "Insira a categoria da despesa",
                             enabledBorder: OutlineInputBorder(
@@ -237,15 +234,25 @@ class _EditExpenseState extends State<EditExpense> {
                               double.parse(inputValorController.text);
                           final String category = inputCategoryController.text;
 
-                          final newExpense = Expense(
-                            id: id,
-                            name: name,
-                            value: value,
-                            date: date,
-                            type: 'Despesa',
-                            category: category,
-                          );
-                          incomeManager.editExpense(expense.id, newExpense);
+                          if (name.isEmpty ||
+                              date.isEmpty ||
+                              inputValorController.text.isEmpty ||
+                              category.isEmpty) {
+                            return;
+                          } else {
+                            final newExpense = Expense(
+                              id: id,
+                              name: name,
+                              value: value,
+                              date: date,
+                              type: 'Despesa',
+                              category: category,
+                            );
+                            incomeManager.editExpense(
+                                widget.expense.id, newExpense);
+                          }
+
+                          Navigator.of(context).pop();
                         },
                       ),
                       const SizedBox(height: 16),

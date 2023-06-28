@@ -1,9 +1,10 @@
 import 'package:finend/configs/expense_income_provider.dart';
+import 'package:finend/expenses/edit_expense.dart';
 import 'package:finend/expenses/models/expense.dart';
 import 'package:finend/home/widgets/navbar.dart';
+import 'package:finend/incomes/edit_income.dart';
 import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -22,47 +23,88 @@ class _HomeViewState extends State<HomeView> {
     final incomes = manager.incomes;
     List<dynamic> transactions = manager.filterTransactions("");
 
-    List<Color> getBarColors(double value) {
-      if (value < 0) {
-        return [Colors.red];
-      } else {
-        return [Colors.blue];
-      }
-    }
-
-    Map<String, double> getMonthlyData(List<dynamic> transactions) {
-      Map<String, double> monthlyData = {};
-
-      for (var transaction in transactions) {
-        String? transactionDate;
-        double? amount;
-
-        if (transaction is Expense) {
-          transactionDate = transaction.date;
-          amount = transaction.value;
-        } else if (transaction is Income) {
-          transactionDate = transaction.date;
-          amount = -transaction.value;
+    Widget buildBarChart(List<Income> incomes, List<Expense> expenses) {
+      Map<String, double> incomeByMonth = {};
+      for (var income in incomes) {
+        String month = income.date.substring(3, 5);
+        if (incomeByMonth.containsKey(month)) {
+          incomeByMonth[month] = (incomeByMonth[month] ?? 0) + income.value;
         } else {
-          continue;
-        }
-
-        if (transactionDate != null && amount != null) {
-          DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(transactionDate);
-          String month = DateFormat('MM').format(parsedDate);
-
-          if (monthlyData.containsKey(month)) {
-            monthlyData[month] = (monthlyData[month] ?? 0) + amount;
-          } else {
-            monthlyData[month] = amount;
-          }
+          incomeByMonth[month] = income.value;
         }
       }
 
-      return monthlyData;
-    }
+      Map<String, double> expenseByMonth = {};
+      for (var expense in expenses) {
+        String month = expense.date.substring(3, 5);
+        if (expenseByMonth.containsKey(month)) {
+          expenseByMonth[month] = (expenseByMonth[month] ?? 0) + expense.value;
+        } else {
+          expenseByMonth[month] = expense.value;
+        }
+      }
 
-    Map<String, double> monthlyData = getMonthlyData(transactions);
+      List<BarChartGroupData> barChartGroups = [];
+      List<String> months = [
+        '01',
+        '02',
+        '03',
+        '04',
+        '05',
+        '06',
+        '07',
+        '08',
+        '09',
+        '10',
+        '11',
+        '12'
+      ];
+
+      for (int i = 0; i < months.length; i++) {
+        String month = months[i];
+
+        double income = incomeByMonth[month] ?? 0;
+        double expense = expenseByMonth[month] ?? 0;
+
+        BarChartGroupData barChartGroup = BarChartGroupData(
+          x: i,
+          barRods: [
+            BarChartRodData(
+              y: income,
+              colors: [Colors.blue],
+            ),
+            BarChartRodData(
+              y: expense,
+              colors: [Colors.red],
+            ),
+          ],
+        );
+
+        barChartGroups.add(barChartGroup);
+      }
+
+      return BarChart(
+        BarChartData(
+          borderData: FlBorderData(show: false),
+          barGroups: barChartGroups,
+          titlesData: FlTitlesData(
+            show: true,
+            bottomTitles: SideTitles(
+              showTitles: true,
+              margin: 10,
+              getTitles: (double value) {
+                int index = value.toInt();
+                if (index >= 0 && index < months.length) {
+                  return months[index];
+                }
+                return '';
+              },
+            ),
+            leftTitles: SideTitles(showTitles: false),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -215,10 +257,14 @@ class _HomeViewState extends State<HomeView> {
                                                     onPressed: () {
                                                       Income incomeToEdit =
                                                           income;
-                                                      Navigator.pushNamed(
+                                                      Navigator.push(
                                                         context,
-                                                        '/edit_income',
-                                                        arguments: incomeToEdit,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditIncome(
+                                                                  income:
+                                                                      incomeToEdit),
+                                                        ),
                                                       );
                                                     },
                                                     child: const Text(
@@ -442,11 +488,14 @@ class _HomeViewState extends State<HomeView> {
                                                     onPressed: () {
                                                       Expense expenseToEdit =
                                                           expense;
-                                                      Navigator.pushNamed(
+                                                      Navigator.push(
                                                         context,
-                                                        '/edit_expense',
-                                                        arguments:
-                                                            expenseToEdit,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditExpense(
+                                                                  expense:
+                                                                      expenseToEdit),
+                                                        ),
                                                       );
                                                     },
                                                     child: const Text(
@@ -543,69 +592,8 @@ class _HomeViewState extends State<HomeView> {
                   transactions.isNotEmpty
                       ? Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 500,
-                          child: BarChart(
-                            BarChartData(
-                              alignment: BarChartAlignment.spaceAround,
-                              barTouchData: BarTouchData(enabled: false),
-                              titlesData: FlTitlesData(
-                                show: true,
-                                bottomTitles: SideTitles(
-                                  showTitles: true,
-                                  margin: 16,
-                                  getTitles: (double value) {
-                                    switch (value.toInt()) {
-                                      case 1:
-                                        return 'Jan';
-                                      case 2:
-                                        return 'Fev';
-                                      case 3:
-                                        return 'Mar';
-                                      case 4:
-                                        return 'Abr';
-                                      case 5:
-                                        return 'Mai';
-                                      case 6:
-                                        return 'Jun';
-                                      case 7:
-                                        return 'Jul';
-                                      case 8:
-                                        return 'Ago';
-                                      case 9:
-                                        return 'Set';
-                                      case 10:
-                                        return 'Out';
-                                      case 11:
-                                        return 'Nov';
-                                      case 12:
-                                        return 'Dez';
-                                      default:
-                                        return '';
-                                    }
-                                  },
-                                ),
-                                leftTitles: SideTitles(showTitles: false),
-                              ),
-                              borderData: FlBorderData(show: false),
-                              barGroups: monthlyData.entries.map((entry) {
-                                final double expenseValue = entry.value ?? 0.0;
-                                final double incomeValue = entry.value ?? 0.0;
-                                return BarChartGroupData(
-                                  x: int.parse(entry.key),
-                                  barRods: [
-                                    BarChartRodData(
-                                      y: expenseValue,
-                                      colors: getBarColors(expenseValue),
-                                    ),
-                                    BarChartRodData(
-                                      y: incomeValue,
-                                      colors: getBarColors(incomeValue),
-                                    ),
-                                  ],
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          height: 320,
+                          child: buildBarChart(incomes, expenses),
                         )
                       : const Center(
                           child: Text(
@@ -635,7 +623,7 @@ class _HomeViewState extends State<HomeView> {
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 content: SizedBox(
-                  height: 152,
+                  height: MediaQuery.of(context).size.height * 0.135,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

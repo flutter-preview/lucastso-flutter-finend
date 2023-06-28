@@ -1,4 +1,5 @@
 import 'package:finend/auth/auth_service.dart';
+import 'package:finend/configs/expense_income_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:finend/auth/widgets/blue_button.dart';
 import 'package:finend/auth/widgets/grey_button.dart';
@@ -19,10 +20,16 @@ class _RegisterViewState extends State<RegisterView> {
 
   void onPressedRegister() async {
     final authService = Provider.of<AuthService>(context, listen: false);
+    final manager = Provider.of<ExpenseIncomeManager>(context, listen: false);
 
     try {
       await authService.signUpWithEmailAndPassword(
           inputEmailController.text, inputPasswordController.text);
+
+      manager.clearAllData();
+      manager.saveUserName(inputNameController.text);
+
+      Navigator.pushNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -115,9 +122,30 @@ class _RegisterViewState extends State<RegisterView> {
                           const SizedBox(height: 8),
                           SizedBox(
                             height: 52,
-                            child: CustomTextField(
-                                inputController: inputPasswordController,
-                                inputHintText: "Insira sua senha aqui"),
+                            child: TextField(
+                              controller: inputPasswordController,
+                              textAlignVertical: TextAlignVertical.center,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                hintText: "Insira sua senha aqui",
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey, width: 0.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey, width: 0.0),
+                                ),
+                                filled: true,
+                                fillColor: Color(0xFFF4F4F4),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 32),
                           AuthBlueButton(

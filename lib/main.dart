@@ -61,8 +61,6 @@ class MyApp extends StatelessWidget {
         '/newincome': (context) => const NewIncome(),
         '/expenses': (context) => const Expenses(),
         '/newexpense': (context) => const NewExpense(),
-        '/edit_income': (context) => const EditIncome(),
-        '/edit_expense': (context) => const EditExpense(),
       },
     );
   }

@@ -19,6 +19,15 @@ class ExpenseIncomeManager extends ChangeNotifier {
     _prefs ??= await SharedPreferences.getInstance();
   }
 
+  Future<void> clearAllData() async {
+    await _initPrefs();
+    _expenses = [];
+    _incomes = [];
+    await _prefs!.remove(_keyExpenses);
+    await _prefs!.remove(_keyIncomes);
+    notifyListeners();
+  }
+
   Future<void> getExpenses() async {
     await _initPrefs();
 
@@ -146,5 +155,15 @@ class ExpenseIncomeManager extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<void> saveUserName(String name) async {
+    await _initPrefs();
+    await _prefs!.setString(_keyUser, name);
+    notifyListeners();
+  }
+
+  String getUserName() {
+    return _prefs?.getString(_keyUser) ?? 'Usuário Finend';
   }
 }
