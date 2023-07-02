@@ -3,10 +3,9 @@ import 'package:finend/auth/widgets/text_fields.dart';
 import 'package:finend/configs/expense_income_provider.dart';
 import 'package:finend/incomes/models/income.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:date_format/date_format.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:date_format/date_format.dart';
 
 class NewIncome extends StatefulWidget {
   const NewIncome({super.key});
@@ -20,6 +19,20 @@ class _NewIncomeState extends State<NewIncome> {
   TextEditingController inputDataController = TextEditingController();
   TextEditingController inputValorController = TextEditingController();
   TextEditingController inputCategoryController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,20 +103,7 @@ class _NewIncomeState extends State<NewIncome> {
                       ),
                       const SizedBox(height: 8),
                       InkWell(
-                        onTap: () {
-                          DatePicker.showDatePicker(
-                            context,
-                            showTitleActions: true,
-                            onConfirm: (date) {
-                              setState(() {
-                                inputDataController.text =
-                                    formatDate(date, [dd, '/', mm, '/', yyyy]);
-                              });
-                            },
-                            currentTime: DateTime.now(),
-                            locale: LocaleType.pt,
-                          );
-                        },
+                        onTap: () => _selectDate(context),
                         child: Container(
                           height: 52,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -116,7 +116,8 @@ class _NewIncomeState extends State<NewIncome> {
                               const Icon(Icons.calendar_today),
                               const SizedBox(width: 8),
                               Text(
-                                inputDataController.text,
+                                formatDate(
+                                    selectedDate, [dd, '/', mm, '/', yyyy]),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -181,13 +182,13 @@ class _NewIncomeState extends State<NewIncome> {
                         onPressed: () {
                           final String id = const Uuid().v4();
                           final String name = inputNameController.text;
-                          final String date = inputDataController.text;
+                          final String date = formatDate(
+                              selectedDate, [dd, '/', mm, '/', yyyy]);
                           final double value =
                               double.parse(inputValorController.text);
                           final String category = inputCategoryController.text;
 
                           if (name.isEmpty ||
-                              date.isEmpty ||
                               inputValorController.text.isEmpty ||
                               category.isEmpty) {
                             return;
